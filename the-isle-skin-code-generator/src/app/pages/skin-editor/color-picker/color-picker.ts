@@ -6,6 +6,7 @@ import { emptyColor } from '../../../data-interfaces';
   selector: 'app-color-picker',
   styleUrl: './color-picker.scss',
   templateUrl: './color-picker.html',
+  standalone: true
 })
 export class ColorPicker {
   color = model.required<string>();

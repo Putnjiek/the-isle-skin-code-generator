@@ -4,12 +4,14 @@ import { Colors, Colors2, Dino, emptyColor, emptyColorPicker, emptySkin, IColorP
 import { DinoNames, Diat } from '../../enums';
 import { ColorPicker } from './color-picker/color-picker';
 import { defaultDinos } from '../../empty-data';
+import { Toast } from '../../components/toast/toast';
 
 @Component({
-  imports: [ColorPicker],
+  imports: [ColorPicker, Toast],
   selector: 'app-skin-editor',
   styleUrl: './skin-editor.scss',
   templateUrl: './skin-editor.html',
+  standalone: true
 })
 export class SkinEditor {
   Diat = Diat;
@@ -61,6 +63,8 @@ export class SkinEditor {
     return this.skinEditorService.generateSkinCode(this.dino());
   });
 
+  showCopyToast = signal(false);
+
   constructor(private skinEditorService: SkinEditorService) {
     effect(() => {
       const { code } = this.selectedVariant();
@@ -77,6 +81,7 @@ export class SkinEditor {
 
   async copyCode() {
     await navigator.clipboard.writeText(this.generatedCode());
+    this.showCopyToast.set(true);
   }
 
   updateColor(property: keyof Colors2, value: string) {
