@@ -8,7 +8,7 @@ export class SkinEditorService {
         let code = `${name}${pattern}${colors.underbelly || emptyColor}FF${colors.body || emptyColor}FF`;
 
         if (isColors2(colors)) {
-            code += `${colors.flank || emptyColor}`;
+            code += `${colors.flank || emptyColor}FF`;
         }
 
         if (isColors3(colors)) {
