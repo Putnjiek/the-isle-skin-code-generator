@@ -16,7 +16,7 @@ export class SkinEditor {
 
   dinos = signal<Dino[]>(defaultDinos());
 
-  selectedDino = signal(DinoNames.Allosaurus);
+  selectedDino = signal(DinoNames.Diabloceratops);
 
   dino = signal<Skin>(emptySkin());
 
