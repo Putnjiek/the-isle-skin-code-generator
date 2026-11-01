@@ -1,0 +1,99 @@
+<div class="min-h-screen bg-gray-950 text-gray-100 p-6">
+    <div class="max-w-5xl mx-auto space-y-8">
+
+        <!-- Header -->
+        <header>
+            <h1 class="text-3xl font-bold">Skin Editor</h1>
+            <p class="text-gray-400 mt-2">
+                Create your own dinosaur skin and generate its code
+            </p>
+        </header>
+
+        <!-- Dino selection -->
+        <section class="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-5">
+            <h2 class="text-xl font-semibold">Dinosaur</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">
+                        Dino
+                    </label>
+
+                    <select [value]="selectedDino()" (change)="selectedDino.set($any($event.target).value)"
+                        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none">
+                        <optgroup label="Herbivores">
+                            @for (dino of dinos(); track dino.name) {
+                            @if (dino.diat === Diat.Herbi) {
+                            <option [value]="dino.name">{{ dino.name }}</option>
+                            }
+                            }
+                        </optgroup>
+
+                        <optgroup label="Carnivores">
+                            @for (dino of dinos(); track dino.name) {
+                            @if (dino.diat === Diat.Carni) {
+                            <option [value]="dino.name">{{ dino.name }}</option>
+                            }
+                            }
+                        </optgroup>
+
+                        <optgroup label="Omnivores">
+                            @for (dino of dinos(); track dino.name) {
+                            @if (dino.diat === Diat.Omni) {
+                            <option [value]="dino.name">{{ dino.name }}</option>
+                            }
+                            }
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">
+                        Variant
+                    </label>
+
+                    <select
+                        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                        [value]="variant()" (change)="variant.set(+$any($event.target).value)">
+                        @for (variant of availableVariants(); track variant.code; let i = $index) {
+                        <option [value]="i">{{ variant.name }}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Colors -->
+        <section class="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-5">
+            <div>
+                <h2 class="text-xl font-semibold">Colors</h2>
+                <p class="text-sm text-gray-400 mt-1">
+                    Choose the colors for your dinosaur.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                @for (color of colors(); track $index) {
+                <app-color-picker [color]="color.color" [label]="color.label"
+                    (colorChange)="updateColor(color.property, $event)" />
+                }
+            </div>
+        </section>
+
+        <!-- Generated code -->
+        <section class="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-4">
+            <h2 class="text-xl font-semibold">Generated Skin Code</h2>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input type="text" readonly [value]="generatedCode()"
+                    class="flex-1 min-w-0 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 font-mono text-sm text-green-400" />
+
+                <button (click)="copyCode()"
+                    class="bg-blue-600 hover:bg-blue-500 active:bg-blue-700 transition-colors rounded-lg px-6 py-3 font-medium flex items-center justify-center gap-2">
+                    <span>Copy Code</span>
+                </button>
+            </div>
+        </section>
+
+    </div>
+</div>
