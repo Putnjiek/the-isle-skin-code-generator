@@ -3,6 +3,7 @@ import { isColors2, SkinEditorService } from '../../services/skin-editor-service
 import { Colors, Colors2, Dino, emptyColor, emptyColorPicker, emptySkin, IColorPicker, Skin } from '../../data-interfaces';
 import { DinoNames, Diat } from '../../enums';
 import { ColorPicker } from './color-picker/color-picker';
+import { defaultDinos } from '../../empty-data';
 
 @Component({
   imports: [ColorPicker],
@@ -13,17 +14,7 @@ import { ColorPicker } from './color-picker/color-picker';
 export class SkinEditor {
   Diat = Diat;
 
-  dinos = signal<Dino[]>([
-    {
-      name: DinoNames.Allosaurus,
-      diat: Diat.Carni,
-      variants: [
-        { name: 'A', code: '100', extendedColors: false },
-        { name: 'B', code: '020', extendedColors: true },
-        { name: 'C', code: '000', extendedColors: true },
-      ]
-    }
-  ]);
+  dinos = signal<Dino[]>(defaultDinos());
 
   selectedDino = signal(DinoNames.Allosaurus);
 
