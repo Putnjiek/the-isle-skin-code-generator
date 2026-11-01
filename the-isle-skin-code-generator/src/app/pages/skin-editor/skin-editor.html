@@ -54,9 +54,9 @@
 
                     <select
                         class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
-                        [value]="variant()" (change)="variant.set(+$any($event.target).value)">
-                        @for (variant of availableVariants(); track variant.code; let i = $index) {
-                        <option [value]="i">{{ variant.name }}</option>
+                        [value]="pattern()" (change)="pattern.set(+$any($event.target).value)">
+                        @for (variant of availablePatterns(); track variant.code; let i = $index) {
+                        <option [value]="i">Pattern {{i + 1}}</option>
                         }
                     </select>
                 </div>

@@ -1,20 +1,30 @@
 import { Service } from '@angular/core';
-import { Colors, Colors2, DinoVariant, emptyColor, Skin } from '../data-interfaces';
+import { Colors, Colors1, Colors3, Colors4, Colors5, Colors6, Dino, emptyColor } from '../data-interfaces';
 
 @Service()
 export class SkinEditorService {
 
-    generateSkinCode(dino: Skin): string {
-        const hasExtendedColors = dino.variants.find(variant => variant.code === dino.variant)?.extendedColors ?? false;
+    generateSkinCode(name: string, pattern: string, colors: Colors): string {
+        let code = `${name}${pattern}${colors.underbelly || emptyColor}FF${colors.body || emptyColor}FF`;
 
-        const colors = dino.colors;
+        if (isColors2(colors)) {
+            code += `${colors.flank || emptyColor}`;
+        }
 
-        let code = `${dino.name}${dino.variant}${colors.underbelly || emptyColor}FF${colors.body || emptyColor}FF`;
+        if (isColors3(colors)) {
+            code += `FF${colors.markings || emptyColor}FF${colors.maleDisplay || emptyColor}FF`;
+        }
 
-        if (hasExtendedColors) {
-            const extendedColors = isColors2(colors) ? colors : undefined;
+        if (isColors4(colors)) {
+            code += `${colors.accents}FF`;
+        }
 
-            code += `${extendedColors?.flank || emptyColor}FF${extendedColors?.markings || emptyColor}FF${extendedColors?.maleDisplay || emptyColor}FF`;
+        if (isColors5(colors)) {
+            code += `${colors.claws}FF`;
+        }
+
+        if (isColors6(colors)) {
+            code += `${colors.mouth}FF`;
         }
 
         return code;
@@ -22,6 +32,22 @@ export class SkinEditorService {
 
 }
 
-export function isColors2(skin: Colors | Colors2): skin is Colors2 {
-    return 'flank' in skin || 'markings' in skin || 'maleDisplay' in skin;
+export function isColors2(skin: Colors1 | Colors3): skin is Colors3 {
+    return 'flank' in skin;
+}
+
+export function isColors3(skin: Colors1 | Colors3): skin is Colors3 {
+    return 'markings' in skin || 'maleDisplay' in skin;
+}
+
+export function isColors4(skin: Colors1 | Colors3 | Colors4): skin is Colors4 {
+    return 'accents' in skin;
+}
+
+export function isColors5(skin: Colors1 | Colors3 | Colors5): skin is Colors5 {
+    return 'claws' in skin;
+}
+
+export function isColors6(skin: Colors1 | Colors3 | Colors6): skin is Colors6 {
+    return 'mouth' in skin;
 }

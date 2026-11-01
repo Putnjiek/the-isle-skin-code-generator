@@ -1,20 +1,32 @@
-import { Dino, DinoVariant } from "../data-interfaces";
+import { Colors, Dino, DinoPattern, emptyColors, emptyColors2, emptyColors3, emptyColors4, emptyColors5, emptyColors6, emptyPattern } from "../data-interfaces";
 import { Diat, DinoNames } from "../enums";
 
-const defaultVariants = (): DinoVariant[] => [
-    { name: "A", code: "000", extendedColors: true },
-    { name: "B", code: "100", extendedColors: true },
-    { name: "C", code: "200", extendedColors: true }
+const defaultPatterns = (colors?: Colors): DinoPattern[] => [
+    emptyPattern("010", colors),
+    emptyPattern("110", colors),
+    emptyPattern("210", colors)
+];
+
+const defaultPatternsAccents = (): DinoPattern[] => [
+    emptyPattern("010", emptyColors4()),
+    emptyPattern("110", emptyColors4()),
+    emptyPattern("210", emptyColors4())
+];
+
+const defaultPatternsClaws = (): DinoPattern[] => [
+    emptyPattern("010", emptyColors5()),
+    emptyPattern("110", emptyColors5()),
+    emptyPattern("210", emptyColors5())
 ];
 
 const createDino = (
     name: DinoNames,
     diat: Diat,
-    variants: DinoVariant[] = defaultVariants()
+    patterns: DinoPattern[] = defaultPatterns()
 ): Dino => ({
     name,
     diat,
-    variants
+    patterns
 });
 
 export const defaultDinos = (): Dino[] => [
@@ -26,21 +38,36 @@ export const defaultDinos = (): Dino[] => [
 const herbivores = (): Dino[] => [
     createDino(DinoNames.Diabloceratops, Diat.Herbi),
     createDino(DinoNames.Dryosaurus, Diat.Herbi),
-    createDino(DinoNames.Hypsilophodon, Diat.Herbi, [
-        { name: "A", code: "100", extendedColors: false },
-        { name: "B", code: "020", extendedColors: true }
-    ]),
+    createDino(DinoNames.Hypsilophodon, Diat.Herbi),
     createDino(DinoNames.Kentrosaurus, Diat.Herbi),
     createDino(DinoNames.Maiasaura, Diat.Herbi),
-    createDino(DinoNames.Pachycephalosaurus, Diat.Herbi),
-    createDino(DinoNames.Stegosaurus, Diat.Herbi),
+    createDino(DinoNames.Pachycephalosaurus, Diat.Herbi, [
+        ...defaultPatterns(),
+        emptyPattern("310"),
+        emptyPattern("410")
+    ]),
+    createDino(DinoNames.Stegosaurus, Diat.Herbi, [
+        ...defaultPatterns(),
+        emptyPattern("310")
+    ]),
     createDino(DinoNames.Tenontosaurus, Diat.Herbi),
-    createDino(DinoNames.Triceratops, Diat.Herbi)
+    createDino(DinoNames.Triceratops, Diat.Herbi, [
+        ...defaultPatterns(),
+        emptyPattern("310", emptyColors2()),
+        emptyPattern("410"),
+        emptyPattern("510")
+    ])
 ];
 
 const carnivores = (): Dino[] => [
-    createDino(DinoNames.Allosaurus, Diat.Carni),
-    createDino(DinoNames.Austroraptor, Diat.Carni),
+    createDino(DinoNames.Allosaurus, Diat.Carni, [
+        ...defaultPatterns(),
+        emptyPattern("310", emptyColors())
+    ]),
+    createDino(DinoNames.Austroraptor, Diat.Carni, [
+        ...defaultPatterns(),
+        emptyPattern("310", emptyColors6())
+    ]),
     createDino(DinoNames.Carnotaurus, Diat.Carni),
     createDino(DinoNames.Ceratosaurus, Diat.Carni),
     createDino(DinoNames.Deinosuchus, Diat.Carni),
@@ -53,6 +80,6 @@ const carnivores = (): Dino[] => [
 ];
 
 const omnivores = (): Dino[] => [
-    createDino(DinoNames.Beipiaosaurus, Diat.Omni),
+    createDino(DinoNames.Beipiaosaurus, Diat.Omni, defaultPatternsAccents()),
     createDino(DinoNames.Gallimimus, Diat.Omni)
 ];

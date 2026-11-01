@@ -1,6 +1,6 @@
-import { Component, computed, effect, signal, untracked } from '@angular/core';
-import { isColors2, SkinEditorService } from '../../services/skin-editor-service';
-import { Colors, Colors2, Dino, emptyColor, emptyColorPicker, emptySkin, IColorPicker, Skin } from '../../data-interfaces';
+import { Component, computed, linkedSignal, signal, untracked } from '@angular/core';
+import { isColors2, isColors3, isColors4, isColors5, SkinEditorService } from '../../services/skin-editor-service';
+import { Colors4, Dino, emptyColor, emptyColorPicker, emptyDino, IColorPicker } from '../../data-interfaces';
 import { DinoNames, Diat } from '../../enums';
 import { ColorPicker } from './color-picker/color-picker';
 import { defaultDinos } from '../../empty-data';
@@ -20,35 +20,45 @@ export class SkinEditor {
 
   selectedDino = signal(DinoNames.Diabloceratops);
 
-  dino = signal<Skin>(emptySkin());
+  dino = linkedSignal<Dino>(() => this.dinos().find(dino => dino.name === this.selectedDino()) ?? emptyDino());
 
-  selectedDinoData = computed(() =>
-    this.dinos().find(dino => dino.name === this.selectedDino())
-  );
+  availablePatterns = computed(() => this.dino()?.patterns ?? []);
 
-  availableVariants = computed(() =>
-    this.selectedDinoData()?.variants ?? []
-  );
+  selectedPattern = computed(() => this.availablePatterns()[this.pattern()]);
 
-  selectedVariant = computed(() => this.availableVariants()[this.variant()]);
-
-  hasExtendedColors = computed(() => this.selectedVariant()?.extendedColors ?? false);
-
-  variant = signal(0);
+  pattern = signal(0);
 
   colors = computed<IColorPicker[]>(() => {
-    const { colors } = this.dino();
+    const { colors } = this.selectedPattern();
+    console.log("colors", colors);
 
     const values = [
       emptyColorPicker("body", "Body", colors.body || emptyColor),
-      emptyColorPicker("underbelly", "Underbelly", colors.underbelly || emptyColor)
+      emptyColorPicker("underbelly", "Underbelly", colors.underbelly || emptyColor),
     ];
 
-    if (this.hasExtendedColors()) {
+    if (isColors2(colors)) {
       values.push(
-        emptyColorPicker("flank", "Flank", isColors2(colors) ? colors.flank || emptyColor : emptyColor),
-        emptyColorPicker("markings", "Markings", isColors2(colors) ? colors.markings || emptyColor : emptyColor),
-        emptyColorPicker("maleDisplay", "Male display", isColors2(colors) ? colors.maleDisplay || emptyColor : emptyColor)
+        emptyColorPicker("flank", "Flank", colors.flank || emptyColor)
+      );
+    }
+
+    if (isColors3(colors)) {
+      values.push(
+        emptyColorPicker("markings", "Markings", colors.markings || emptyColor),
+        emptyColorPicker("maleDisplay", "Male display", colors.maleDisplay || emptyColor)
+      );
+    }
+
+    if (isColors4(colors)) {
+      values.push(
+        emptyColorPicker("accents", "Accents", colors.accents || emptyColor)
+      );
+    }
+
+    if (isColors5(colors)) {
+      values.push(
+        // emptyColorPicker("claws", "Claws", colors.claws || emptyColor)
       );
     }
 
@@ -56,44 +66,44 @@ export class SkinEditor {
   });
 
   generatedCode = computed<string>(() => {
-    const dino = this.selectedDinoData();
+    const dino = this.dino();
 
     if (!dino) return '';
 
-    return this.skinEditorService.generateSkinCode(this.dino());
+    const pattern = this.selectedPattern()
+
+    return this.skinEditorService.generateSkinCode(dino.name, pattern.code, pattern.colors);
   });
 
   showCopyToast = signal(false);
 
-  constructor(private skinEditorService: SkinEditorService) {
-    effect(() => {
-      const { code } = this.selectedVariant();
-
-      untracked(() => this.updateDino({ variant: code }))
-    });
-
-    effect(() => {
-      const dino = this.selectedDinoData();
-
-      untracked(() => this.updateDino({ ...dino }))
-    });
-  }
+  constructor(private skinEditorService: SkinEditorService) { }
 
   async copyCode() {
     await navigator.clipboard.writeText(this.generatedCode());
     this.showCopyToast.set(true);
   }
 
-  updateColor(property: keyof Colors2, value: string) {
-    const colors = {
-      ...this.dino().colors,
-      [property]: value
-    }
+  updateColor(property: keyof Colors4, value: string) {
+    const patternIndex = this.pattern();
 
-    this.updateDino({ colors })
+    this.dino.update(dino => ({
+      ...dino,
+      patterns: dino.patterns.map((pattern, index) =>
+        index === patternIndex
+          ? {
+            ...pattern,
+            colors: {
+              ...pattern.colors,
+              [property]: value
+            }
+          }
+          : pattern
+      )
+    }));
   }
 
-  updateDino(value: Partial<Skin>) {
+  updateDino(value: Partial<Dino>) {
     this.dino.update(dino => ({
       ...dino,
       ...value
