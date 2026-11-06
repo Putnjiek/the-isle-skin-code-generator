@@ -16,18 +16,28 @@ import { Toast } from '../../components/toast/toast';
 export class SkinEditor {
   Diat = Diat;
 
+  /** Available dinosaurs and their predefined skin patterns. */
   dinos = signal<Dino[]>(defaultDinos());
 
+  /** Currently selected dinosaur. */
   selectedDino = signal(DinoNames.Diabloceratops);
 
+  /** Resolves the selected dinosaur and keeps its editable state. */
   dino = linkedSignal<Dino>(() => this.dinos().find(dino => dino.name === this.selectedDino()) ?? emptyDino());
 
+  /** Patterns available for the selected dinosaur. */
   availablePatterns = computed(() => this.dino()?.patterns ?? []);
 
+  /** Currently selected skin pattern. */
   selectedPattern = computed(() => this.availablePatterns()[this.pattern()]);
 
+  /** Index of the currently selected pattern. */
   pattern = signal(0);
 
+  /**
+   * Creates the color picker entries based on the selected pattern's color structure.
+   * Optional color fields are added depending on the pattern's color type.
+   */
   colors = computed<IColorPicker[]>(() => {
     const { colors } = this.selectedPattern();
     console.log("colors", colors);
@@ -77,25 +87,37 @@ export class SkinEditor {
     return values;
   });
 
+  /**
+   * Generates the skin code using the selected dinosaur, pattern and color values.
+   */
   generatedCode = computed<string>(() => {
     const dino = this.dino();
 
     if (!dino) return '';
 
-    const pattern = this.selectedPattern()
+    const pattern = this.selectedPattern();
 
     return this.skinEditorService.generateSkinCode(dino.name, pattern.code, pattern.colors);
   });
 
+  /** Controls the visibility of the copy confirmation toast. */
   showCopyToast = signal(false);
 
   constructor(private skinEditorService: SkinEditorService) { }
 
+  /**
+   * Copies the generated skin code to the clipboard and displays a confirmation toast.
+   */
   async copyCode() {
     await navigator.clipboard.writeText(this.generatedCode());
     this.showCopyToast.set(true);
   }
 
+  /**
+   * Updates a color property of the currently selected pattern.
+   * @param property The color property to update.
+   * @param value The new color value.
+   */
   updateColor(property: keyof Colors4, value: string) {
     const patternIndex = this.pattern();
 
@@ -115,6 +137,10 @@ export class SkinEditor {
     }));
   }
 
+  /**
+   * Updates the properties of the currently selected dinosaur.
+   * @param value The dinosaur properties to update.
+   */
   updateDino(value: Partial<Dino>) {
     this.dino.update(dino => ({
       ...dino,
