@@ -16,6 +16,6 @@ export class ColorPicker {
   displayColor = computed(() => this.color()?.trim().length ? `#${this.color()}` : `#${emptyColor}`)
 
   updateColor(value: string) {
-    this.color.set(value.substring(1).toUpperCase())
+    this.color.set(value.replace("#", "").toUpperCase());
   }
 }

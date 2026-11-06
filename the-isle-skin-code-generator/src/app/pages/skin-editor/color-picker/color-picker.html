@@ -1,10 +1,16 @@
 <div class="bg-gray-800 rounded-lg p-4">
-    <label class="block text-sm font-medium mb-3">{{label()}}</label>
+    <label class="block text-sm font-medium mb-3">{{ label() }}</label>
+
     <div class="flex items-center gap-3">
-        <input type="color" [value]="displayColor()" (input)="updateColor(($event.target).value)"
+        <input type="color" [value]="displayColor()" (input)="updateColor($any($event.target).value)"
             class="w-12 h-12 rounded cursor-pointer bg-transparent" />
-        <span class="text-sm text-gray-400 font-mono">
-            {{ displayColor() }}
-        </span>
+
+        <div class="flex items-center flex-1 bg-gray-900 border border-gray-700 rounded-lg overflow-hidden">
+            <span class="text-gray-500 pl-3">#</span>
+
+            <input type="text" maxlength="6" [value]="color()" (input)="updateColor('#' + $any($event.target).value)"
+                class="w-full min-w-0 bg-transparent px-2 py-2 text-sm font-mono uppercase text-gray-100 outline-none"
+                placeholder="000000" />
+        </div>
     </div>
 </div>
