@@ -1,4 +1,4 @@
-import { Colors, Dino, DinoPattern, emptyColors, emptyColors2, emptyColors3, emptyColors4, emptyColors5, emptyColors6, emptyPattern } from "../data-interfaces";
+import { Colors, Dino, DinoPattern, emptyColors, emptyColors2, emptyColors3, emptyColors4, emptyColors5, emptyColors6, emptyColors7, emptyPattern } from "../data-interfaces";
 import { Diat, DinoNames } from "../enums";
 
 const defaultPatterns = (colors?: Colors): DinoPattern[] => [
@@ -61,22 +61,41 @@ const herbivores = (): Dino[] => [
 
 const carnivores = (): Dino[] => [
     createDino(DinoNames.Allosaurus, Diat.Carni, [
-        ...defaultPatterns(),
-        emptyPattern("310", emptyColors())
+        emptyPattern("000"),
+        emptyPattern("100"),
+        emptyPattern("200"),
+        emptyPattern("300", emptyColors())
     ]),
     createDino(DinoNames.Austroraptor, Diat.Carni, [
         ...defaultPatterns(),
         emptyPattern("310", emptyColors6())
     ]),
-    createDino(DinoNames.Carnotaurus, Diat.Carni),
+    createDino(DinoNames.Carnotaurus, Diat.Carni, [
+        ...defaultPatterns(),
+        emptyPattern("310", emptyColors7())
+    ]),
     createDino(DinoNames.Ceratosaurus, Diat.Carni),
     createDino(DinoNames.Deinosuchus, Diat.Carni),
     createDino(DinoNames.Dilophosaurus, Diat.Carni),
-    createDino(DinoNames.Herrerasaurus, Diat.Carni),
-    createDino(DinoNames.Omniraptor, Diat.Carni),
+    createDino(DinoNames.Herrerasaurus, Diat.Carni, [
+        ...defaultPatterns(),
+        emptyPattern("310"),
+        emptyPattern("410")
+    ]),
+    createDino(DinoNames.Omniraptor, Diat.Carni, [
+        ...defaultPatterns(),
+        emptyPattern("310", emptyColors()),
+        emptyPattern("410"),
+        emptyPattern("510"),
+        emptyPattern("610")
+    ]),
     createDino(DinoNames.Pteranodon, Diat.Carni),
     createDino(DinoNames.Troodon, Diat.Carni),
-    createDino(DinoNames.Tyrannosaurus, Diat.Carni)
+    createDino(DinoNames.Tyrannosaurus, Diat.Carni, [
+        ...defaultPatterns(),
+        emptyPattern("310", emptyColors4()),
+        emptyPattern("410", emptyColors2())
+    ])
 ];
 
 const omnivores = (): Dino[] => [

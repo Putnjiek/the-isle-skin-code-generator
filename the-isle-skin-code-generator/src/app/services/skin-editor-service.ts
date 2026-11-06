@@ -1,5 +1,5 @@
 import { Service } from '@angular/core';
-import { Colors, Colors1, Colors3, Colors4, Colors5, Colors6, Dino, emptyColor } from '../data-interfaces';
+import { Colors, Colors1, Colors2, Colors3, Colors4, Colors5, Colors6, Colors7, Dino, emptyColor } from '../data-interfaces';
 
 @Service()
 export class SkinEditorService {
@@ -12,27 +12,31 @@ export class SkinEditorService {
         }
 
         if (isColors3(colors)) {
-            code += `FF${colors.markings || emptyColor}FF${colors.maleDisplay || emptyColor}FF`;
+            code += `${colors.markings || emptyColor}FF${colors.maleDisplay || emptyColor}FF`;
         }
 
-        if (isColors4(colors)) {
+        if (isColors4(colors) && colors.accents) {
             code += `${colors.accents}FF`;
         }
 
-        if (isColors5(colors)) {
-            code += `${colors.claws}FF`;
-        }
+        // if (isColors5(colors)) {
+        //     code += `${colors.claws}FF`;
+        // }
 
-        if (isColors6(colors)) {
-            code += `${colors.mouth}FF`;
-        }
+        // if (isColors6(colors)) {
+        //     code += `${colors.mouth}FF`;
+        // }
+
+        // if (isColors7(colors)) {
+        //     code += `${colors.teeth}FF`
+        // }
 
         return code;
     }
 
 }
 
-export function isColors2(skin: Colors1 | Colors3): skin is Colors3 {
+export function isColors2(skin: Colors1 | Colors2): skin is Colors2 {
     return 'flank' in skin;
 }
 
@@ -50,4 +54,8 @@ export function isColors5(skin: Colors1 | Colors3 | Colors5): skin is Colors5 {
 
 export function isColors6(skin: Colors1 | Colors3 | Colors6): skin is Colors6 {
     return 'mouth' in skin;
+}
+
+export function isColors7(skin: Colors1 | Colors3 | Colors7): skin is Colors7 {
+    return 'teeth' in skin;
 }

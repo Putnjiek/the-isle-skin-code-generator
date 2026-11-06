@@ -1,5 +1,5 @@
 import { Component, computed, linkedSignal, signal, untracked } from '@angular/core';
-import { isColors2, isColors3, isColors4, isColors5, SkinEditorService } from '../../services/skin-editor-service';
+import { isColors2, isColors3, isColors4, isColors5, isColors6, isColors7, SkinEditorService } from '../../services/skin-editor-service';
 import { Colors4, Dino, emptyColor, emptyColorPicker, emptyDino, IColorPicker } from '../../data-interfaces';
 import { DinoNames, Diat } from '../../enums';
 import { ColorPicker } from './color-picker/color-picker';
@@ -59,6 +59,18 @@ export class SkinEditor {
     if (isColors5(colors)) {
       values.push(
         // emptyColorPicker("claws", "Claws", colors.claws || emptyColor)
+      );
+    }
+
+    if (isColors6(colors)) {
+      values.push(
+        // emptyColorPicker("mouth", "Mouth", colors.mouth || emptyColor)
+      );
+    }
+
+    if (isColors7(colors)) {
+      values.push(
+        // emptyColorPicker("teeth", "Teeth", colors.teeth || emptyColor)
       );
     }
 

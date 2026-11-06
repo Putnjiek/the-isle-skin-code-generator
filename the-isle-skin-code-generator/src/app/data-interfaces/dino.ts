@@ -40,6 +40,10 @@ export interface Colors6 extends Colors5 {
     mouth: string;
 }
 
+export interface Colors7 extends Colors3 {
+    teeth: string;
+}
+
 export const emptyDino = (): Dino => ({
     name: DinoNames.Diabloceratops,
     diat: Diat.Carni,
@@ -80,4 +84,9 @@ export const emptyColors5 = (): Colors5 => ({
 export const emptyColors6 = (): Colors6 => ({
     ...emptyColors5(),
     mouth: emptyColor
+})
+
+export const emptyColors7 = (): Colors7 => ({
+    ...emptyColors3(),
+    teeth: emptyColor
 })
