@@ -3,7 +3,6 @@ import { Colors, Colors1, Colors2, Colors3, Colors4, Colors5, Colors6, Colors7, 
 
 @Service()
 export class SkinEditorService {
-
     /**
      * Generates a skin code from the dinosaur name, pattern and selected colors.
      * Each color is appended with its alpha value (FF).
@@ -13,18 +12,22 @@ export class SkinEditorService {
      * @returns The complete generated skin code.
      */
     generateSkinCode(name: string, pattern: string, colors: Colors): string {
-        let code = `${name}${pattern}${colors.underbelly || emptyColor}FF${colors.body || emptyColor}FF`;
+        let code = `${name}${pattern}`;
+
+        if (isColors4(colors) && colors.accents) {
+            code += `${colors.accents}FF`;
+        }
+
+        code += `${colors.underbelly || emptyColor}FF`;
+
+        code += `${colors.body || emptyColor}FF`;
 
         if (isColors2(colors)) {
             code += `${colors.flank || emptyColor}FF`;
         }
 
         if (isColors3(colors)) {
-            code += `${colors.markings || emptyColor}FF${colors.maleDisplay || emptyColor}FF`;
-        }
-
-        if (isColors4(colors) && colors.accents) {
-            code += `${colors.accents}FF`;
+            code += `${colors.markings || emptyColor}FF`;
         }
 
         // if (isColors5(colors)) {
@@ -38,6 +41,10 @@ export class SkinEditorService {
         // if (isColors7(colors)) {
         //     code += `${colors.teeth}FF`
         // }
+
+        if (isColors3(colors)) {
+            code += `${colors.maleDisplay || emptyColor}FF`
+        }
 
         return code;
     }
