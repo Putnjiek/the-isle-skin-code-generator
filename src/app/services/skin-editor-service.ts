@@ -117,9 +117,7 @@ export class SkinEditorService {
         if (isColors3(colors)) {
             if (index >= segments.length) return null;
             colors.markings = segments[index++];
-        }
 
-        if (isColors3(colors)) {
             if (index >= segments.length) return null;
             colors.maleDisplay = segments[index++];
         }
