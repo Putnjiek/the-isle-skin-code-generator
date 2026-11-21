@@ -1,6 +1,6 @@
 import { Component, computed, linkedSignal, signal, untracked } from '@angular/core';
 import { isColors2, isColors3, isColors4, isColors5, isColors6, isColors7, SkinEditorService } from '../../services/skin-editor-service';
-import { ColorProperty, Dino, emptyColor, emptyColorPicker, emptyDino, IColorPicker } from '../../data-interfaces';
+import { ColorProperty, Dino, DinoPattern, emptyColor, emptyColorPicker, emptyDino, IColorPicker } from '../../data-interfaces';
 import { DinoNames, Diat } from '../../enums';
 import { ColorPicker } from './color-picker/color-picker';
 import { defaultDinos } from '../../empty-data';
@@ -104,7 +104,42 @@ export class SkinEditor {
   /** Controls the visibility of the copy confirmation toast. */
   showCopyToast = signal(false);
 
+  /** Generated skin code entered by the user for loading. */
+  skinCodeInput = signal('');
+  skinCodeError = signal('');
+
   constructor(private skinEditorService: SkinEditorService) { }
+
+  /**
+   * Loads a generated skin code into the dinosaur, pattern and color controls.
+   */
+  loadSkinCode(value: string) {
+    this.skinCodeInput.set(value);
+    const parsed = this.skinEditorService.parseSkinCode(value, this.dinos());
+
+    if (!parsed) {
+      this.skinCodeError.set('Invalid skin code');
+      return;
+    }
+
+    this.skinCodeError.set('');
+    const dino = this.dinos().find(candidate => candidate.name === parsed.name);
+    if (!dino) return;
+
+    const patternIndex = dino.patterns.findIndex(candidate => candidate.code === parsed.pattern);
+    if (patternIndex < 0) return;
+
+    this.selectedDino.set(parsed.name);
+    this.pattern.set(patternIndex);
+    this.dino.update(current => ({
+      ...current,
+      patterns: current.patterns.map((pattern, index) =>
+        index === patternIndex
+          ? { ...pattern, colors: parsed.colors }
+          : pattern
+      )
+    }));
+  }
 
   /**
    * Copies the generated skin code to the clipboard and displays a confirmation toast.

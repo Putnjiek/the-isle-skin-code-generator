@@ -1,6 +1,12 @@
 import { Service } from '@angular/core';
 import { Colors, Colors1, Colors2, Colors3, Colors4, Colors5, Colors6, Colors7, Dino, emptyColor } from '../data-interfaces';
 
+export interface ParsedSkinCode {
+    name: Dino['name'];
+    pattern: string;
+    colors: Colors;
+}
+
 @Service()
 export class SkinEditorService {
     /**
@@ -13,6 +19,18 @@ export class SkinEditorService {
      */
     generateSkinCode(name: string, pattern: string, colors: Colors): string {
         let code = `${name}${pattern}`;
+
+        if (isColors6(colors)) {
+            code += `${colors.mouth || emptyColor}FF`;
+        }
+
+        if (isColors5(colors)) {
+            code += `${colors.claws || emptyColor}FF`;
+        }
+
+        if (isColors7(colors)) {
+            code += `${colors.teeth || emptyColor}FF`;
+        }
 
         if (isColors4(colors) && colors.accents) {
             code += `${colors.accents}FF`;
@@ -30,23 +48,89 @@ export class SkinEditorService {
             code += `${colors.markings || emptyColor}FF`;
         }
 
-        if (isColors5(colors)) {
-            code += `${colors.claws || emptyColor}FF`;
-        }
-
-        if (isColors6(colors)) {
-            code += `${colors.mouth || emptyColor}FF`;
-        }
-
-        if (isColors7(colors)) {
-            code += `${colors.teeth || emptyColor}FF`;
-        }
-
         if (isColors3(colors)) {
-            code += `${colors.maleDisplay || emptyColor}FF`
+            code += `${colors.maleDisplay || emptyColor}FF`;
         }
 
         return code;
+    }
+
+    /**
+     * Parses a generated skin code and restores the dinosaur, pattern and colors.
+     */
+    parseSkinCode(code: string, dinos: Dino[]): ParsedSkinCode | null {
+        const normalized = code.trim().replace(/^#/, '').replace(/\s/g, '').toUpperCase();
+        if (!normalized) return null;
+
+        const dino = [...dinos]
+            .sort((a, b) => b.name.length - a.name.length)
+            .find(candidate => normalized.startsWith(candidate.name.toUpperCase()));
+        if (!dino) return null;
+
+        const patternCode = normalized.slice(dino.name.length, dino.name.length + 3);
+        const pattern = dino.patterns.find(candidate => candidate.code === patternCode);
+        if (!pattern) return null;
+
+        const payload = normalized.slice(dino.name.length + 3);
+        if (!payload || payload.length % 8 !== 0) return null;
+
+        const segments: string[] = [];
+        for (let index = 0; index < payload.length; index += 8) {
+            const segment = payload.slice(index, index + 8);
+            if (!/^[0-9A-F]{6}FF$/i.test(segment)) return null;
+            segments.push(segment.slice(0, 6));
+        }
+
+        const colors = { ...pattern.colors } as Colors;
+        let index = 0;
+
+        if (isColors6(colors)) {
+            if (index >= segments.length) return null;
+            colors.mouth = segments[index++];
+        }
+
+        if (isColors5(colors)) {
+            if (index >= segments.length) return null;
+            colors.claws = segments[index++];
+        }
+
+        if (isColors7(colors)) {
+            if (index >= segments.length) return null;
+            colors.teeth = segments[index++];
+        }
+
+        if (isColors4(colors)) {
+            if (index >= segments.length) return null;
+            colors.accents = segments[index++];
+        }
+
+        if (index >= segments.length) return null;
+        colors.underbelly = segments[index++];
+        if (index >= segments.length) return null;
+        colors.body = segments[index++];
+
+        if (isColors2(colors)) {
+            if (index >= segments.length) return null;
+            colors.flank = segments[index++];
+        }
+
+        if (isColors3(colors)) {
+            if (index >= segments.length) return null;
+            colors.markings = segments[index++];
+        }
+
+        if (isColors3(colors)) {
+            if (index >= segments.length) return null;
+            colors.maleDisplay = segments[index++];
+        }
+
+        if (index !== segments.length) return null;
+
+        return {
+            name: dino.name,
+            pattern: patternCode,
+            colors
+        };
     }
 
 }

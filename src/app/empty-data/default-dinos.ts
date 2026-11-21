@@ -86,8 +86,8 @@ const carnivores = (): Dino[] => [
         ...defaultPatterns(),
         emptyPattern("310", emptyColors()),
         emptyPattern("410"),
-        emptyPattern("510"),
-        emptyPattern("610")
+        emptyPattern("510", emptyColors6()),
+        emptyPattern("610", emptyColors5())
     ]),
     createDino(DinoNames.Pteranodon, Diat.Carni),
     createDino(DinoNames.Troodon, Diat.Carni),

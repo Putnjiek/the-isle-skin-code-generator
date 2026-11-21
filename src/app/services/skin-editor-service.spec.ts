@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { SkinEditorService } from '../skin-editor-service';
+import { DinoNames } from '../enums';
+import { defaultDinos } from '../empty-data';
 import { emptyColors5, emptyColors6, emptyColors7 } from '../data-interfaces';
 
 describe('SkinEditorService', () => {
@@ -39,5 +41,27 @@ describe('SkinEditorService', () => {
 
     expect(service.generateSkinCode('Test', '010', colors))
       .toContain('444444FF');
+  });
+
+  it('should parse a generated skin code back into dinosaur colors and pattern', () => {
+    const colors = emptyColors6();
+    colors.body = '111111';
+    colors.underbelly = '222222';
+    colors.markings = '333333';
+    colors.maleDisplay = '444444';
+    colors.claws = '555555';
+    colors.mouth = '666666';
+    colors.flank = '777777';
+
+    const code = service.generateSkinCode(DinoNames.Austroraptor, '310', colors);
+    const parsed = service.parseSkinCode(code, defaultDinos());
+
+    expect(parsed?.name).toBe(DinoNames.Austroraptor);
+    expect(parsed?.pattern).toBe('310');
+    expect(parsed?.colors).toEqual(colors);
+  });
+
+  it('should reject an invalid skin code', () => {
+    expect(service.parseSkinCode('Unknown', defaultDinos())).toBeNull();
   });
 });
