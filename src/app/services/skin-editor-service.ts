@@ -30,17 +30,17 @@ export class SkinEditorService {
             code += `${colors.markings || emptyColor}FF`;
         }
 
-        // if (isColors5(colors)) {
-        //     code += `${colors.claws}FF`;
-        // }
+        if (isColors5(colors)) {
+            code += `${colors.claws || emptyColor}FF`;
+        }
 
-        // if (isColors6(colors)) {
-        //     code += `${colors.mouth}FF`;
-        // }
+        if (isColors6(colors)) {
+            code += `${colors.mouth || emptyColor}FF`;
+        }
 
-        // if (isColors7(colors)) {
-        //     code += `${colors.teeth}FF`
-        // }
+        if (isColors7(colors)) {
+            code += `${colors.teeth || emptyColor}FF`;
+        }
 
         if (isColors3(colors)) {
             code += `${colors.maleDisplay || emptyColor}FF`

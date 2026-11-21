@@ -2,6 +2,14 @@ import { Diat, DinoNames } from "../enums";
 import { emptyColor } from "./color-picker";
 
 export type Colors = Colors1 | Colors2 | Colors3 | Colors4 | Colors5 | Colors6 | Colors7
+export type ColorProperty =
+    | keyof Colors1
+    | keyof Colors2
+    | keyof Colors3
+    | keyof Colors4
+    | keyof Colors5
+    | keyof Colors6
+    | keyof Colors7;
 
 export interface Dino {
     name: DinoNames;

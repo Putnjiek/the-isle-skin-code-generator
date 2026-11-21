@@ -79,8 +79,8 @@ const carnivores = (): Dino[] => [
     createDino(DinoNames.Dilophosaurus, Diat.Carni),
     createDino(DinoNames.Herrerasaurus, Diat.Carni, [
         ...defaultPatterns(),
-        emptyPattern("310"),
-        emptyPattern("410")
+        emptyPattern("310", emptyColors6()),
+        emptyPattern("410", emptyColors6())
     ]),
     createDino(DinoNames.Omniraptor, Diat.Carni, [
         ...defaultPatterns(),

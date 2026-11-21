@@ -1,6 +1,6 @@
 import { Component, computed, linkedSignal, signal, untracked } from '@angular/core';
 import { isColors2, isColors3, isColors4, isColors5, isColors6, isColors7, SkinEditorService } from '../../services/skin-editor-service';
-import { Colors4, Dino, emptyColor, emptyColorPicker, emptyDino, IColorPicker } from '../../data-interfaces';
+import { ColorProperty, Dino, emptyColor, emptyColorPicker, emptyDino, IColorPicker } from '../../data-interfaces';
 import { DinoNames, Diat } from '../../enums';
 import { ColorPicker } from './color-picker/color-picker';
 import { defaultDinos } from '../../empty-data';
@@ -69,19 +69,19 @@ export class SkinEditor {
 
     if (isColors5(colors)) {
       values.push(
-        // emptyColorPicker("claws", "Claws", colors.claws || emptyColor)
+        emptyColorPicker("claws", "Claws", colors.claws || emptyColor)
       );
     }
 
     if (isColors6(colors)) {
       values.push(
-        // emptyColorPicker("mouth", "Mouth", colors.mouth || emptyColor)
+        emptyColorPicker("mouth", "Mouth", colors.mouth || emptyColor)
       );
     }
 
     if (isColors7(colors)) {
       values.push(
-        // emptyColorPicker("teeth", "Teeth", colors.teeth || emptyColor)
+        emptyColorPicker("teeth", "Teeth", colors.teeth || emptyColor)
       );
     }
 
@@ -119,7 +119,7 @@ export class SkinEditor {
    * @param property The color property to update.
    * @param value The new color value.
    */
-  updateColor(property: keyof Colors4, value: string) {
+  updateColor(property: ColorProperty, value: string) {
     const patternIndex = this.pattern();
 
     this.dino.update(dino => ({
