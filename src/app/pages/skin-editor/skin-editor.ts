@@ -1,6 +1,6 @@
-import { Component, computed, linkedSignal, signal, untracked } from '@angular/core';
-import { isColors2, isColors3, isColors4, isColors5, isColors6, isColors7, SkinEditorService } from '../../services/skin-editor-service';
-import { ColorProperty, Dino, DinoPattern, emptyColor, emptyColorPicker, emptyDino, IColorPicker } from '../../data-interfaces';
+import { Component, computed, linkedSignal, signal } from '@angular/core';
+import { isColorsFlank, isColorsMaleAndMarkings, isColorsAccents, isColorsClaws, isColorsTeeth, SkinEditorService, isColorsMouth } from '../../services/skin-editor-service';
+import { ColorProperty, Dino, emptyColor, emptyColorPicker, emptyDino, IColorPicker } from '../../data-interfaces';
 import { DinoNames, Diat } from '../../enums';
 import { ColorPicker } from './color-picker/color-picker';
 import { defaultDinos } from '../../empty-data';
@@ -43,14 +43,14 @@ export class SkinEditor {
 
     const values = [];
 
-    if (isColors3(colors)) {
+    if (isColorsMaleAndMarkings(colors)) {
       values.push(
         emptyColorPicker("maleDisplay", "Male display", colors.maleDisplay || emptyColor),
         emptyColorPicker("markings", "Markings", colors.markings || emptyColor)
       );
     }
 
-    if (isColors2(colors)) {
+    if (isColorsFlank(colors)) {
       values.push(
         emptyColorPicker("flank", "Flank", colors.flank || emptyColor)
       );
@@ -61,25 +61,25 @@ export class SkinEditor {
       emptyColorPicker("underbelly", "Underbelly", colors.underbelly || emptyColor),
     );
 
-    if (isColors4(colors)) {
+    if (isColorsAccents(colors)) {
       values.push(
         emptyColorPicker("accents", "Accents", colors.accents || emptyColor)
       );
     }
 
-    if (isColors5(colors)) {
+    if (isColorsClaws(colors)) {
       values.push(
         emptyColorPicker("claws", "Claws", colors.claws || emptyColor)
       );
     }
 
-    if (isColors6(colors)) {
+    if (isColorsMouth(colors)) {
       values.push(
         emptyColorPicker("mouth", "Mouth", colors.mouth || emptyColor)
       );
     }
 
-    if (isColors7(colors)) {
+    if (isColorsTeeth(colors)) {
       values.push(
         emptyColorPicker("teeth", "Teeth", colors.teeth || emptyColor)
       );

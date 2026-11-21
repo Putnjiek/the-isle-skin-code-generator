@@ -1,4 +1,4 @@
-import { Colors, Dino, DinoPattern, emptyColors, emptyColors2, emptyColors3, emptyColors4, emptyColors5, emptyColors6, emptyColors7, emptyPattern } from "../data-interfaces";
+import { Colors, Dino, DinoPattern, emptyColors, emptyColorsFlank, emptyColorsAccents, emptyColorsClaws, emptyColorsClawsMouth, emptyColorsTeeth, emptyPattern } from "../data-interfaces";
 import { Diat, DinoNames } from "../enums";
 
 const defaultPatterns = (colors?: Colors): DinoPattern[] => [
@@ -8,15 +8,15 @@ const defaultPatterns = (colors?: Colors): DinoPattern[] => [
 ];
 
 const defaultPatternsAccents = (): DinoPattern[] => [
-    emptyPattern("010", emptyColors4()),
-    emptyPattern("110", emptyColors4()),
-    emptyPattern("210", emptyColors4())
+    emptyPattern("010", emptyColorsAccents()),
+    emptyPattern("110", emptyColorsAccents()),
+    emptyPattern("210", emptyColorsAccents())
 ];
 
 const defaultPatternsClaws = (): DinoPattern[] => [
-    emptyPattern("010", emptyColors5()),
-    emptyPattern("110", emptyColors5()),
-    emptyPattern("210", emptyColors5())
+    emptyPattern("010", emptyColorsClaws()),
+    emptyPattern("110", emptyColorsClaws()),
+    emptyPattern("210", emptyColorsClaws())
 ];
 
 const createDino = (
@@ -53,7 +53,7 @@ const herbivores = (): Dino[] => [
     createDino(DinoNames.Tenontosaurus, Diat.Herbi),
     createDino(DinoNames.Triceratops, Diat.Herbi, [
         ...defaultPatterns(),
-        emptyPattern("310", emptyColors2()),
+        emptyPattern("310", emptyColorsFlank()),
         emptyPattern("410"),
         emptyPattern("510")
     ])
@@ -68,32 +68,32 @@ const carnivores = (): Dino[] => [
     ]),
     createDino(DinoNames.Austroraptor, Diat.Carni, [
         ...defaultPatterns(),
-        emptyPattern("310", emptyColors6())
+        emptyPattern("310", emptyColorsClawsMouth())
     ]),
     createDino(DinoNames.Carnotaurus, Diat.Carni, [
         ...defaultPatterns(),
-        emptyPattern("310", emptyColors7())
+        emptyPattern("310", emptyColorsTeeth())
     ]),
     createDino(DinoNames.Ceratosaurus, Diat.Carni),
     createDino(DinoNames.Deinosuchus, Diat.Carni),
     createDino(DinoNames.Dilophosaurus, Diat.Carni),
     createDino(DinoNames.Herrerasaurus, Diat.Carni, [
         ...defaultPatterns(),
-        emptyPattern("310", emptyColors6()),
-        emptyPattern("410", emptyColors6())
+        emptyPattern("310", emptyColorsClawsMouth()),
+        emptyPattern("410", emptyColorsClawsMouth())
     ]),
     createDino(DinoNames.Omniraptor, Diat.Carni, [
         ...defaultPatterns(),
         emptyPattern("310", emptyColors()),
-        emptyPattern("410", emptyColors6()),
-        emptyPattern("510", emptyColors5())
+        emptyPattern("410", emptyColorsClawsMouth()),
+        emptyPattern("510", emptyColorsClaws())
     ]),
     createDino(DinoNames.Pteranodon, Diat.Carni),
     createDino(DinoNames.Troodon, Diat.Carni),
     createDino(DinoNames.Tyrannosaurus, Diat.Carni, [
         ...defaultPatterns(),
-        emptyPattern("310", emptyColors4()),
-        emptyPattern("410", emptyColors2())
+        emptyPattern("310", emptyColorsAccents()),
+        emptyPattern("410", emptyColorsFlank())
     ])
 ];
 

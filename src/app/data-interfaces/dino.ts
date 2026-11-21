@@ -1,14 +1,15 @@
 import { Diat, DinoNames } from "../enums";
 import { emptyColor } from "./color-picker";
 
-export type Colors = Colors1 | Colors2 | Colors3 | Colors4 | Colors5 | Colors6 | Colors7
+export type Colors = Colors1 | Colors2 | Colors3 | Colors4 | Colors5 | ColorsClawsMouth | ColorsMouth | Colors7
 export type ColorProperty =
     | keyof Colors1
     | keyof Colors2
     | keyof Colors3
     | keyof Colors4
     | keyof Colors5
-    | keyof Colors6
+    | keyof ColorsClawsMouth
+    | keyof ColorsMouth
     | keyof Colors7;
 
 export interface Dino {
@@ -44,7 +45,11 @@ export interface Colors5 extends Colors3 {
     claws: string;
 }
 
-export interface Colors6 extends Colors5 {
+export interface ColorsClawsMouth extends Colors5 {
+    mouth: string;
+}
+
+export interface ColorsMouth extends Colors3 {
     mouth: string;
 }
 
@@ -58,7 +63,7 @@ export const emptyDino = (): Dino => ({
     patterns: []
 });
 
-export const emptyPattern = (code = "000", colors: Colors = emptyColors3()): DinoPattern => ({
+export const emptyPattern = (code = "000", colors: Colors = emptyColorsMaleAndMarkings()): DinoPattern => ({
     code,
     colors
 })
@@ -68,33 +73,38 @@ export const emptyColors = (): Colors1 => ({
     underbelly: emptyColor
 })
 
-export const emptyColors2 = (): Colors2 => ({
+export const emptyColorsFlank = (): Colors2 => ({
     ...emptyColors(),
     flank: emptyColor
 })
 
-export const emptyColors3 = (): Colors3 => ({
-    ...emptyColors2(),
+export const emptyColorsMaleAndMarkings = (): Colors3 => ({
+    ...emptyColorsFlank(),
     maleDisplay: emptyColor,
     markings: emptyColor
 })
 
-export const emptyColors4 = (): Colors4 => ({
-    ...emptyColors3(),
+export const emptyColorsAccents = (): Colors4 => ({
+    ...emptyColorsMaleAndMarkings(),
     accents: emptyColor
 })
 
-export const emptyColors5 = (): Colors5 => ({
-    ...emptyColors3(),
+export const emptyColorsClaws = (): Colors5 => ({
+    ...emptyColorsMaleAndMarkings(),
     claws: emptyColor
 })
 
-export const emptyColors6 = (): Colors6 => ({
-    ...emptyColors5(),
+export const emptyColorsClawsMouth = (): ColorsClawsMouth => ({
+    ...emptyColorsClaws(),
     mouth: emptyColor
 })
 
-export const emptyColors7 = (): Colors7 => ({
-    ...emptyColors3(),
+export const emptyColorsMouth = (): ColorsMouth => ({
+    ...emptyColorsMaleAndMarkings(),
+    mouth: emptyColor
+})
+
+export const emptyColorsTeeth = (): Colors7 => ({
+    ...emptyColorsMaleAndMarkings(),
     teeth: emptyColor
 })

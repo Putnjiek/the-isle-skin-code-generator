@@ -1,5 +1,5 @@
 import { Service } from '@angular/core';
-import { Colors, Colors1, Colors2, Colors3, Colors4, Colors5, Colors6, Colors7, Dino, emptyColor } from '../data-interfaces';
+import { Colors, Colors1, Colors2, Colors3, Colors4, Colors5, Colors7, Dino, emptyColor, ColorsMouth } from '../data-interfaces';
 
 export interface ParsedSkinCode {
     name: Dino['name'];
@@ -20,19 +20,19 @@ export class SkinEditorService {
     generateSkinCode(name: string, pattern: string, colors: Colors): string {
         let code = `${name}${pattern}`;
 
-        if (isColors6(colors)) {
+        if (isColorsMouth(colors)) {
             code += `${colors.mouth || emptyColor}FF`;
         }
 
-        if (isColors5(colors)) {
+        if (isColorsClaws(colors)) {
             code += `${colors.claws || emptyColor}FF`;
         }
 
-        if (isColors7(colors)) {
+        if (isColorsTeeth(colors)) {
             code += `${colors.teeth || emptyColor}FF`;
         }
 
-        if (isColors4(colors) && colors.accents) {
+        if (isColorsAccents(colors) && colors.accents) {
             code += `${colors.accents}FF`;
         }
 
@@ -40,15 +40,15 @@ export class SkinEditorService {
 
         code += `${colors.body || emptyColor}FF`;
 
-        if (isColors2(colors)) {
+        if (isColorsFlank(colors)) {
             code += `${colors.flank || emptyColor}FF`;
         }
 
-        if (isColors3(colors)) {
+        if (isColorsMaleAndMarkings(colors)) {
             code += `${colors.markings || emptyColor}FF`;
         }
 
-        if (isColors3(colors)) {
+        if (isColorsMaleAndMarkings(colors)) {
             code += `${colors.maleDisplay || emptyColor}FF`;
         }
 
@@ -84,22 +84,22 @@ export class SkinEditorService {
         const colors = { ...pattern.colors } as Colors;
         let index = 0;
 
-        if (isColors6(colors)) {
+        if (isColorsMouth(colors)) {
             if (index >= segments.length) return null;
             colors.mouth = segments[index++];
         }
 
-        if (isColors5(colors)) {
+        if (isColorsClaws(colors)) {
             if (index >= segments.length) return null;
             colors.claws = segments[index++];
         }
 
-        if (isColors7(colors)) {
+        if (isColorsTeeth(colors)) {
             if (index >= segments.length) return null;
             colors.teeth = segments[index++];
         }
 
-        if (isColors4(colors)) {
+        if (isColorsAccents(colors)) {
             if (index >= segments.length) return null;
             colors.accents = segments[index++];
         }
@@ -109,12 +109,12 @@ export class SkinEditorService {
         if (index >= segments.length) return null;
         colors.body = segments[index++];
 
-        if (isColors2(colors)) {
+        if (isColorsFlank(colors)) {
             if (index >= segments.length) return null;
             colors.flank = segments[index++];
         }
 
-        if (isColors3(colors)) {
+        if (isColorsMaleAndMarkings(colors)) {
             if (index >= segments.length) return null;
             colors.markings = segments[index++];
 
@@ -138,7 +138,7 @@ export class SkinEditorService {
  * @param skin The color object to check.
  * @returns True if the object contains the flank property.
  */
-export function isColors2(skin: Colors1 | Colors2): skin is Colors2 {
+export function isColorsFlank(skin: Colors1 | Colors2): skin is Colors2 {
     return 'flank' in skin;
 }
 
@@ -147,7 +147,7 @@ export function isColors2(skin: Colors1 | Colors2): skin is Colors2 {
  * @param skin The color object to check.
  * @returns True if the object contains either property.
  */
-export function isColors3(skin: Colors1 | Colors3): skin is Colors3 {
+export function isColorsMaleAndMarkings(skin: Colors1 | Colors3): skin is Colors3 {
     return 'markings' in skin || 'maleDisplay' in skin;
 }
 
@@ -156,7 +156,7 @@ export function isColors3(skin: Colors1 | Colors3): skin is Colors3 {
  * @param skin The color object to check.
  * @returns True if the object contains the accents property.
  */
-export function isColors4(skin: Colors1 | Colors3 | Colors4): skin is Colors4 {
+export function isColorsAccents(skin: Colors1 | Colors3 | Colors4): skin is Colors4 {
     return 'accents' in skin;
 }
 
@@ -165,7 +165,7 @@ export function isColors4(skin: Colors1 | Colors3 | Colors4): skin is Colors4 {
  * @param skin The color object to check.
  * @returns True if the object contains the claws property.
  */
-export function isColors5(skin: Colors1 | Colors3 | Colors5): skin is Colors5 {
+export function isColorsClaws(skin: Colors1 | Colors3 | Colors5): skin is Colors5 {
     return 'claws' in skin;
 }
 
@@ -174,7 +174,7 @@ export function isColors5(skin: Colors1 | Colors3 | Colors5): skin is Colors5 {
  * @param skin The color object to check.
  * @returns True if the object contains the mouth property.
  */
-export function isColors6(skin: Colors1 | Colors3 | Colors6): skin is Colors6 {
+export function isColorsMouth(skin: Colors1 | Colors3 | ColorsMouth): skin is ColorsMouth {
     return 'mouth' in skin;
 }
 
@@ -183,6 +183,6 @@ export function isColors6(skin: Colors1 | Colors3 | Colors6): skin is Colors6 {
  * @param skin The color object to check.
  * @returns True if the object contains the teeth property.
  */
-export function isColors7(skin: Colors1 | Colors3 | Colors7): skin is Colors7 {
+export function isColorsTeeth(skin: Colors1 | Colors3 | Colors7): skin is Colors7 {
     return 'teeth' in skin;
 }
