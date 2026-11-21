@@ -40,12 +40,15 @@ export class SkinEditor {
    */
   colors = computed<IColorPicker[]>(() => {
     const { colors } = this.selectedPattern();
-    console.log("colors", colors);
 
-    const values = [
-      emptyColorPicker("body", "Body", colors.body || emptyColor),
-      emptyColorPicker("underbelly", "Underbelly", colors.underbelly || emptyColor),
-    ];
+    const values = [];
+
+    if (isColors3(colors)) {
+      values.push(
+        emptyColorPicker("maleDisplay", "Male display", colors.maleDisplay || emptyColor),
+        emptyColorPicker("markings", "Markings", colors.markings || emptyColor)
+      );
+    }
 
     if (isColors2(colors)) {
       values.push(
@@ -53,12 +56,10 @@ export class SkinEditor {
       );
     }
 
-    if (isColors3(colors)) {
-      values.push(
-        emptyColorPicker("markings", "Markings", colors.markings || emptyColor),
-        emptyColorPicker("maleDisplay", "Male display", colors.maleDisplay || emptyColor)
-      );
-    }
+    values.push(
+      emptyColorPicker("body", "Body", colors.body || emptyColor),
+      emptyColorPicker("underbelly", "Underbelly", colors.underbelly || emptyColor),
+    );
 
     if (isColors4(colors)) {
       values.push(
