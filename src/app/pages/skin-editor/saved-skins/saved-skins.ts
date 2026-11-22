@@ -30,6 +30,7 @@ export class SavedSkins {
         try {
             this.savedSkins.set(this.localStorageService.saveSkin(this.saveName(), this.code()));
             this.saveName.set('');
+            this.selectedSkinName.set('');
             this.errorMessage.set('');
             this.showSaveToast.set(true);
         } catch (error) {
@@ -37,10 +38,10 @@ export class SavedSkins {
         }
     }
 
-    selectSavedSkin(name: string) {
-        this.selectedSkinName.set(name);
+    updateSaveName(name: string) {
         this.saveName.set(name);
         const savedSkin = this.savedSkins().find(skin => skin.name === name);
+        this.selectedSkinName.set(savedSkin?.name ?? '');
         if (savedSkin) this.loadRequested.emit(savedSkin.code);
     }
 

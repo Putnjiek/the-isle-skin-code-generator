@@ -24,7 +24,7 @@ describe('SavedSkins', () => {
 
         let loadedCode = '';
         component.loadRequested.subscribe(code => loadedCode = code);
-        component.selectSavedSkin('My skin');
+        component.updateSaveName('My skin');
 
         expect(component.saveName()).toBe('My skin');
         expect(loadedCode).toBe('DIABLO010');
@@ -37,7 +37,7 @@ describe('SavedSkins', () => {
         component.deleteSavedSkin('My skin');
         expect(component.savedSkins()).toHaveLength(1);
 
-        component.selectSavedSkin('My skin');
+        component.updateSaveName('My skin');
         const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(false);
         component.confirmDeleteSkin('My skin');
         expect(component.savedSkins()).toHaveLength(1);
@@ -57,7 +57,7 @@ describe('SavedSkins', () => {
 
         component.saveName.set('My skin');
         component.saveSkin();
-        component.selectSavedSkin('My skin');
+        component.updateSaveName('My skin');
         fixture.detectChanges();
 
         expect(deleteButton.disabled).toBe(false);
