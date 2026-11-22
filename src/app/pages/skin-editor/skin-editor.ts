@@ -91,7 +91,7 @@ export class SkinEditor {
   /**
    * Generates the skin code using the selected dinosaur, pattern and color values.
    */
-  generatedCode = computed<string>(() => {
+  generatedCode = linkedSignal<string>(() => {
     const dino = this.dino();
 
     if (!dino) return '';
@@ -105,7 +105,6 @@ export class SkinEditor {
   showCopyToast = signal(false);
 
   /** Generated skin code entered by the user for loading. */
-  skinCodeInput = signal('');
   skinCodeError = signal('');
 
   constructor(private skinEditorService: SkinEditorService) { }
@@ -114,7 +113,7 @@ export class SkinEditor {
    * Loads a generated skin code into the dinosaur, pattern and color controls.
    */
   loadSkinCode(value: string) {
-    this.skinCodeInput.set(value);
+    this.generatedCode.set(value);
     const parsed = this.skinEditorService.parseSkinCode(value, this.dinos());
 
     if (!parsed) {
