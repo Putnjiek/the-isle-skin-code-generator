@@ -39,6 +39,7 @@ export class SavedSkins {
 
     selectSavedSkin(name: string) {
         this.selectedSkinName.set(name);
+        this.saveName.set(name);
         const savedSkin = this.savedSkins().find(skin => skin.name === name);
         if (savedSkin) this.loadRequested.emit(savedSkin.code);
     }

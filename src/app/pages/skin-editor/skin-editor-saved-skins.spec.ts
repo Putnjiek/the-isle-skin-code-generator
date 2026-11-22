@@ -25,6 +25,7 @@ describe('SavedSkins', () => {
         component.loadRequested.subscribe(code => loadedCode = code);
         component.selectSavedSkin('My skin');
 
+        expect(component.saveName()).toBe('My skin');
         expect(loadedCode).toBe('DIABLO010');
     });
 
