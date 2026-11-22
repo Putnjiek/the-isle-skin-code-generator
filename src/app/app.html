@@ -3,7 +3,7 @@
 <button type="button" (click)="toggleTheme()" [attr.aria-pressed]="theme() === 'light'"
     [attr.aria-label]="'Switch to ' + (theme() === 'dark' ? 'light' : 'dark') + ' mode'"
     class="fixed top-4 right-6 z-50 cursor-pointer rounded-full p-1 focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-purple-500">
-    <img [src]="theme() === 'dark' ? '/sun.svg' : '/moon.svg'" alt="" aria-hidden="true" class="size-6" />
+    <img [src]="theme() === 'dark' ? 'sun.svg' : 'moon.svg'" alt="" aria-hidden="true" class="size-6" />
 </button>
 
 <footer class="fixed bottom-4 right-6 flex items-center gap-3 text-sm text-gray-500">
