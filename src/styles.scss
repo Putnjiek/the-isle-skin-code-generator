@@ -61,6 +61,20 @@ app-root.light-mode button {
   color: #f3f4f6;
 }
 
+app-root.light-mode button.secondary-button {
+  color: #6b21a8;
+  background-color: #faf5ff;
+  border-color: #c084fc;
+}
+
+app-root.light-mode button.secondary-button:hover {
+  background-color: #f3e8ff;
+}
+
+app-root.light-mode button.secondary-button:active {
+  background-color: #e9d5ff;
+}
+
 app-root.light-mode .copy-toast {
   color: #111827;
   background-color: #ffffff;
