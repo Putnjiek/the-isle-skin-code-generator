@@ -44,6 +44,13 @@ export class SavedSkins {
         if (savedSkin) this.loadRequested.emit(savedSkin.code);
     }
 
+    confirmDeleteSkin(name: string) {
+        if (name !== this.selectedSkinName()) return;
+        if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
+            this.deleteSavedSkin(name);
+        }
+    }
+
     deleteSavedSkin(name: string) {
         if (name !== this.selectedSkinName()) return;
 

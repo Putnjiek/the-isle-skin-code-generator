@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { SavedSkins } from './saved-skins/saved-skins';
 
 describe('SavedSkins', () => {
@@ -29,7 +30,7 @@ describe('SavedSkins', () => {
         expect(loadedCode).toBe('DIABLO010');
     });
 
-    it('should only delete the selected skin', () => {
+    it('should only delete a selected skin after confirmation', () => {
         component.saveName.set('My skin');
         component.saveSkin();
 
@@ -37,8 +38,13 @@ describe('SavedSkins', () => {
         expect(component.savedSkins()).toHaveLength(1);
 
         component.selectSavedSkin('My skin');
-        component.deleteSavedSkin('My skin');
+        const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(false);
+        component.confirmDeleteSkin('My skin');
+        expect(component.savedSkins()).toHaveLength(1);
 
+        confirmSpy.mockReturnValue(true);
+        component.confirmDeleteSkin('My skin');
+        confirmSpy.mockRestore();
         expect(component.savedSkins()).toEqual([]);
         expect(component.selectedSkinName()).toBe('');
         expect(localStorage.getItem('the-isle-skin-code-generator.saved-skins')).toBe('[]');
