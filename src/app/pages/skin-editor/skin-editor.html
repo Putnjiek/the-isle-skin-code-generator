@@ -1,5 +1,5 @@
 <div class="min-h-screen bg-gray-950 text-gray-100 p-6">
-    <div class="max-w-5xl mx-auto space-y-8">
+    <div class="max-w-7xl mx-auto space-y-8">
 
         <!-- Header -->
         <header>
@@ -9,99 +9,108 @@
             </p>
         </header>
 
-        <!-- Dino selection -->
-        <section class="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-5">
-            <h2 class="text-xl font-semibold">Dinosaur</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_20rem] gap-8 items-start">
+            <main class="min-w-0 space-y-8">
+                <!-- Dino selection -->
+                <section class="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-5">
+                    <h2 class="text-xl font-semibold">Dinosaur</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                    <label class="block text-sm text-gray-400 mb-2">
-                        Dino
-                    </label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">
+                                Dino
+                            </label>
 
-                    <select [value]="selectedDino()" (change)="selectedDino.set($any($event.target).value)"
-                        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none">
-                        <optgroup label="Herbivores">
-                            @for (dino of dinos(); track dino.name) {
-                            @if (dino.diat === Diat.Herbi) {
-                            <option [value]="dino.name">{{ dino.name }}</option>
-                            }
-                            }
-                        </optgroup>
+                            <select [value]="selectedDino()" (change)="selectedDino.set($any($event.target).value)"
+                                class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none">
+                                <optgroup label="Herbivores">
+                                    @for (dino of dinos(); track dino.name) {
+                                    @if (dino.diat === Diat.Herbi) {
+                                    <option [value]="dino.name">{{ dino.name }}</option>
+                                    }
+                                    }
+                                </optgroup>
 
-                        <optgroup label="Carnivores">
-                            @for (dino of dinos(); track dino.name) {
-                            @if (dino.diat === Diat.Carni) {
-                            <option [value]="dino.name">{{ dino.name }}</option>
-                            }
-                            }
-                        </optgroup>
+                                <optgroup label="Carnivores">
+                                    @for (dino of dinos(); track dino.name) {
+                                    @if (dino.diat === Diat.Carni) {
+                                    <option [value]="dino.name">{{ dino.name }}</option>
+                                    }
+                                    }
+                                </optgroup>
 
-                        <optgroup label="Omnivores">
-                            @for (dino of dinos(); track dino.name) {
-                            @if (dino.diat === Diat.Omni) {
-                            <option [value]="dino.name">{{ dino.name }}</option>
-                            }
-                            }
-                        </optgroup>
-                    </select>
-                </div>
+                                <optgroup label="Omnivores">
+                                    @for (dino of dinos(); track dino.name) {
+                                    @if (dino.diat === Diat.Omni) {
+                                    <option [value]="dino.name">{{ dino.name }}</option>
+                                    }
+                                    }
+                                </optgroup>
+                            </select>
+                        </div>
 
-                <div>
-                    <label class="block text-sm text-gray-400 mb-2">
-                        Variant
-                    </label>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">
+                                Variant
+                            </label>
 
-                    <select
-                        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
-                        [value]="pattern()" (change)="pattern.set(+$any($event.target).value)">
-                        @for (variant of availablePatterns(); track variant.code; let i = $index) {
-                        <option [value]="i">Pattern {{i + 1}}</option>
+                            <select
+                                class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                                [value]="pattern()" (change)="pattern.set(+$any($event.target).value)">
+                                @for (variant of availablePatterns(); track variant.code; let i = $index) {
+                                <option [value]="i">Pattern {{i + 1}}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Colors -->
+                <section class="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-5">
+                    <div>
+                        <h2 class="text-xl font-semibold">Colors</h2>
+                        <p class="text-sm text-gray-400 mt-1">
+                            Choose the colors for your dinosaur
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        @for (color of colors(); track $index) {
+                        <app-color-picker [color]="color.color" [label]="color.label"
+                            (colorChange)="updateColor(color.property, $event)" />
                         }
-                    </select>
-                </div>
-            </div>
-        </section>
+                    </div>
+                </section>
 
-        <!-- Colors -->
-        <section class="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-5">
-            <div>
-                <h2 class="text-xl font-semibold">Colors</h2>
-                <p class="text-sm text-gray-400 mt-1">
-                    Choose the colors for your dinosaur
-                </p>
-            </div>
+                <!-- Generated code -->
+                <section class="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-4">
+                    <h2 class="text-xl font-semibold">Generated Skin Code</h2>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                @for (color of colors(); track $index) {
-                <app-color-picker [color]="color.color" [label]="color.label"
-                    (colorChange)="updateColor(color.property, $event)" />
-                }
-            </div>
-        </section>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" [value]="generatedCode()"
+                            (input)="generatedCode.set($any($event.target).value)"
+                            class="flex-1 min-w-0 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 font-mono text-sm text-green-400" />
 
-        <!-- Generated code -->
-        <section class="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-4">
-            <h2 class="text-xl font-semibold">Generated Skin Code</h2>
+                        <button (click)="loadSkinCode( generatedCode())"
+                            class="bg-green-700 hover:bg-green-600 active:bg-green-800 transition-colors rounded-lg px-6 py-3 font-medium">
+                            Load Code
+                        </button>
 
-            <div class="flex flex-col sm:flex-row gap-3">
-                <input type="text" [value]="generatedCode()" (input)="generatedCode.set($any($event.target).value)"
-                    class="flex-1 min-w-0 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 font-mono text-sm text-green-400" />
+                        <button (click)="copyCode()"
+                            class="bg-blue-600 hover:bg-blue-500 active:bg-blue-700 transition-colors rounded-lg px-6 py-3 font-medium flex items-center justify-center gap-2">
+                            <span>Copy Code</span>
+                        </button>
+                    </div>
+                    @if (skinCodeError()) {
+                    <p class="text-sm text-red-400">{{ skinCodeError() }}</p>
+                    }
+                </section>
+            </main>
 
-                <button (click)="loadSkinCode( generatedCode())"
-                    class="bg-green-700 hover:bg-green-600 active:bg-green-800 transition-colors rounded-lg px-6 py-3 font-medium">
-                    Load Code
-                </button>
-
-                <button (click)="copyCode()"
-                    class="bg-blue-600 hover:bg-blue-500 active:bg-blue-700 transition-colors rounded-lg px-6 py-3 font-medium flex items-center justify-center gap-2">
-                    <span>Copy Code</span>
-                </button>
-            </div>
-            @if (skinCodeError()) {
-            <p class="text-sm text-red-400">{{ skinCodeError() }}</p>
-            }
-        </section>
+            <aside class="lg:sticky lg:top-6">
+                <app-saved-skins [code]="generatedCode()" (loadRequested)="loadSkinCode($event)" />
+            </aside>
+        </div>
 
     </div>
 </div>

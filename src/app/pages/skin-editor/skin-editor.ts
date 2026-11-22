@@ -5,9 +5,10 @@ import { DinoNames, Diat } from '../../enums';
 import { ColorPicker } from './color-picker/color-picker';
 import { defaultDinos } from '../../empty-data';
 import { Toast } from '../../components/toast/toast';
+import { SavedSkins } from './saved-skins/saved-skins';
 
 @Component({
-  imports: [ColorPicker, Toast],
+  imports: [ColorPicker, SavedSkins, Toast],
   selector: 'app-skin-editor',
   styleUrl: './skin-editor.scss',
   templateUrl: './skin-editor.html',
