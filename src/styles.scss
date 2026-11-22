@@ -1,0 +1,68 @@
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #030712;
+}
+
+app-root {
+  display: block;
+  min-height: 100vh;
+  color: #f3f4f6;
+  color-scheme: dark;
+}
+
+app-root.light-mode {
+  color: #111827;
+  color-scheme: light;
+}
+
+app-root.light-mode .bg-gray-950 {
+  background-color: #f9fafb;
+}
+
+app-root.light-mode .bg-gray-900 {
+  background-color: #ffffff;
+}
+
+app-root.light-mode .bg-gray-800 {
+  background-color: #f3f4f6;
+}
+
+app-root.light-mode .border-gray-800 {
+  border-color: #e5e7eb;
+}
+
+app-root.light-mode .border-gray-700 {
+  border-color: #d1d5db;
+}
+
+app-root.light-mode .text-gray-100,
+app-root.light-mode .text-gray-300 {
+  color: #1f2937;
+}
+
+app-root.light-mode .text-gray-400 {
+  color: #4b5563;
+}
+
+app-root.light-mode .text-gray-500 {
+  color: #6b7280;
+}
+
+app-root.light-mode .text-gray-700 {
+  color: #374151;
+}
+
+app-root.light-mode button {
+  color: #f3f4f6;
+}
+
+app-root.light-mode .copy-toast {
+  color: #111827;
+  background-color: #ffffff;
+  border-color: #d1d5db;
+}
