@@ -29,8 +29,7 @@ export class SavedSkins {
     saveSkin() {
         try {
             this.savedSkins.set(this.localStorageService.saveSkin(this.saveName(), this.code()));
-            this.saveName.set('');
-            this.selectedSkinName.set('');
+            this.selectedSkinName.set(this.saveName());
             this.errorMessage.set('');
             this.showSaveToast.set(true);
         } catch (error) {
